@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HemoGuide</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bl:#1565c0;--bl2:#4a90d9;--bg:#f2f6fb;--cd:#fff;--tx:#1b2a3a;--mu:#6b7c8e;--bd:#dbe4ee;--ok:#2e9e5b;--no:#d64545;--soft:#e8f1fc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1722;--cd:#17222f;--tx:#e6edf5;--mu:#93a4b6;--bd:#27384a;--soft:#1b2c42}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:'Sarabun',system-ui,sans-serif;font-size:16px}
+#app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg)}
+.hd{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px;font-size:18px}
+.bk{background:rgba(255,255,255,.2);border:0;color:#fff;border-radius:10px;width:34px;height:34px;font-size:22px;cursor:pointer}
+.pad{padding:16px}.card{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.hero{background:linear-gradient(160deg,var(--bl),var(--bl2));color:#fff;text-align:center;padding:36px 20px 56px}
+.logo{width:72px;height:72px;background:#fff;border-radius:18px;margin:0 auto 10px;display:grid;place-items:center}
+.hero h1{margin:4px 0;font-size:30px}.hero p{margin:2px 0;opacity:.92;font-size:14px}
+.sheet{background:var(--cd);margin-top:-28px;border-radius:24px 24px 0 0;padding:22px 18px;min-height:60vh}
+label{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:20px;padding:7px 13px;font:inherit;font-size:14px;cursor:pointer}
+.chip.on{border-color:var(--bl);color:var(--bl);background:var(--soft);font-weight:600}
+input[type=text],select,textarea{width:100%;padding:12px;border:1.5px solid var(--bd);border-radius:12px;font:inherit;background:var(--cd);color:var(--tx)}
+.btn{display:block;width:100%;background:var(--bl);color:#fff;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;font-size:16px;margin-top:16px;cursor:pointer}
+.btn.alt{background:var(--soft);color:var(--bl)}
+.menu{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:13px;margin-bottom:10px;font:inherit;color:var(--tx);cursor:pointer}
+.ic{width:44px;height:44px;border-radius:12px;background:var(--bl);color:#fff;display:grid;place-items:center;font-size:22px;flex:none}
+.menu small{display:block;color:var(--mu)}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:12px;padding:12px;margin-bottom:8px;font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:rgba(46,158,91,.15)}.opt.no{border-color:var(--no);background:rgba(214,69,69,.15)}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--bl);transition:width .3s}
+.tube{width:22px;height:46px;border-radius:5px 5px 11px 11px;flex:none;border:2px solid rgba(0,0,0,.15);position:relative}
+.tube:before{content:"";position:absolute;top:-6px;left:-3px;right:-3px;height:12px;border-radius:4px;background:var(--c)}
+.row{display:flex;gap:12px;align-items:flex-start}.tag{display:inline-block;background:var(--soft);color:var(--bl);border-radius:8px;padding:2px 8px;font-size:12px;margin:2px 3px 0 0}
+.mu{color:var(--mu);font-size:14px}.chk{display:flex;gap:10px;align-items:center;margin-top:8px;font-size:14px;background:var(--soft);padding:8px;border-radius:10px}
+.chk input,.ci input{width:20px;height:20px}.ci{display:flex;gap:12px;align-items:center;padding:12px;background:var(--cd);border:1px solid var(--bd);border-radius:14px;margin-bottom:8px}
+.imp{background:rgba(214,69,69,.15);color:var(--no);font-size:11px;border-radius:8px;padding:1px 6px;margin-left:6px}
+.big{font-size:42px;font-weight:700;color:var(--bl)}.rt{display:flex;gap:6px}.rt button{flex:1}
+</style></head><body><div id="app"></div>
+<script>
+var S={type:'นักศึกษาพยาบาล',pre:null,post:null,sel:{},chk:{},ver:{},rate:{},cm:['',''],pf:'นาย',nm:''},V='login',Q={},open_=null;
+var T={cult:{n:'ขวดเพาะเชื้อ (Hemo culture)',c:'#d4a017',add:'อาหารเลี้ยงเชื้อ',vol:'ผู้ใหญ่ ~5 ml/ขวด (เจาะ 2 ขวด)',mix:'8',tip:'เก็บก่อนหลอดอื่นเสมอ ใช้เทคนิคปลอดเชื้อ ห้ามแช่ตู้เย็น'},
+red:{n:'หลอดจุกสีแดง (Clot activator)',c:'#d83a3a',add:'Clot activator',vol:'~5 ml',mix:'5',tip:'ตรวจ Calcium ห้ามใช้หลอดพลาสติก; ตัวอย่างที่เม็ดเลือดแดงแตกมีผลต่อ K, AST, ALT, LDH ฯลฯ'},
+blue:{n:'หลอดจุกสีฟ้า (Sodium citrate)',c:'#5bb5e8',add:'Sodium citrate',vol:'เติมถึงขีด (≥ 90%) สัดส่วนเลือด 9 : ยา 1',mix:'3–4',tip:'ถ้าเป็นหลอดแรกที่เก็บ ให้ทิ้งเลือด 2 ml แรก ห้ามรัดสายรัดนานเกินไป อย่าให้เกิดฟอง'},
+green:{n:'หลอดจุกสีเขียว (Lithium heparin)',c:'#3aa655',add:'Lithium heparin',vol:'ตามขีดกำหนด',mix:'8–10',tip:'ใช้ตรวจเคมีที่ระบุ Lithium heparin; ห้ามใช้ตรวจ Lithium'},
+purple:{n:'หลอดจุกสีม่วง (EDTA)',c:'#8e5bb8',add:'K3EDTA / K2EDTA',vol:'ตามขีด (CBC ต้องไม่น้อยกว่า 60% ของหลอด)',mix:'8',tip:'ห้ามปั่นแยกก่อนตรวจ CBC ต้องป้องกันการแข็งตัวของเลือดในหลอด'},
+lav:{n:'หลอดจุกสีม่วงยาว (Blood group)',c:'#6f3f9b',add:'EDTA',vol:'ตามที่ห้องปฏิบัติการกำหนด',mix:'8',tip:'ตรวจหมู่เลือด ติดชื่อผู้ป่วยข้างหลอดให้ชัดเจน'},
+grey:{n:'หลอดจุกสีเทา (Sodium fluoride)',c:'#8a949e',add:'Sodium fluoride',vol:'2–3 ml',mix:'8–10',tip:'ยับยั้ง glycolysis เพื่อรักษาระดับกลูโคสในตัวอย่างเลือด'}};
+var ORD=['cult','red','blue','green','purple','lav','grey'];
+var TS=[['Hemo culture','cult']].concat(['BUN','Creatinine','Electrolytes','Lipid profile','Albumin','Total bilirubin','LFT','Calcium (Inor.)','Phosphorus (Inor.)','Magnesium (Inor.)','TFT-FT3','TFT-FT4','TFT-TSH','CPK','CRP','ESR','Anti-HIV (4th gen)','HBsAg','HBsAb','HBcAb','HBeAg'].map(function(x){return[x,'red']}),[['PT/INR','blue'],['aPTT','blue'],['hs-Troponin I','green'],['CBC','purple'],['HbA1c','purple'],['Blood group','lav'],['FBS','grey']]);
+var D={pre:[
+['การตรวจ CBC ควรเลือกใช้หลอดเก็บเลือดชนิดใด',['หลอดจุกสีม่วง (EDTA)','หลอดจุกสีฟ้า (Sodium citrate)','หลอดจุกสีเทา (Fluoride)','ขวดเพาะเชื้อในเลือด'],0],
+['การตรวจ PT/INR โดยทั่วไปควรใช้หลอดใด',['หลอดจุกสีแดง','หลอดจุกสีฟ้า (Sodium citrate)','หลอดจุกสีม่วง','หลอดจุกสีเทา'],1],
+['เหตุใดจึงต้องตรวจสอบชื่อและตัวระบุผู้ป่วยก่อนเก็บเลือด',['เพื่อลดจำนวนหลอดที่ใช้','เพื่อป้องกันการสลับตัวอย่างเลือด','เพื่อทำให้เลือดไหลเร็วขึ้น','เพื่อลดเวลาแยกเลือด'],1],
+['ในการเก็บเลือดหลายหลอด ข้อใดควรทำเพื่อป้องกันการปนเปื้อนสารเติมแต่ง',['เก็บหลอดตามลำดับที่กำหนด (Order of Draw)','เลือกหลอดตามสีที่หยิบได้ก่อน','เขย่าหลอดทุกชนิดพร้อมกัน','เปิดฝาหลอดทั้งหมดก่อนเจาะ'],0],
+['หลังเก็บเลือดในหลอดที่มีสารกันเลือดแข็ง ควรทำอย่างไร',['เขย่าแรง ๆ จนเกิดฟอง','พลิกกลับหลอดเบา ๆ ตามข้อกำหนดของหลอด','ปล่อยทิ้งไว้โดยไม่ผสม','เปิดฝาแล้วใช้ไม้คน'],1],
+['ข้อใดเป็นผลที่อาจเกิดจากการเขย่าตัวอย่างเลือดแรงเกินไป',['ภาวะเม็ดเลือดแดงแตก (Hemolysis)','การเพิ่มปริมาตรเลือด','การเพิ่มจำนวนเกล็ดเลือดจริง','การลดปริมาณสารกันเลือดแข็ง'],0],
+['การตรวจระดับน้ำตาลที่ต้องยับยั้ง glycolysis มักใช้หลอดใด',['หลอดจุกสีฟ้า','หลอดจุกสีม่วง','หลอดจุกสีเทาที่มีสารยับยั้ง glycolysis','ขวดเพาะเชื้อ'],2],
+['หากพบว่าเก็บเลือดผิดชนิดหลอด ควรทำอย่างไร',['เปลี่ยนฉลากให้ตรงรายการตรวจ','แจ้งผู้เกี่ยวข้องและเก็บตัวอย่างใหม่ด้วยหลอดที่ถูกต้องตามแนวทาง','เติมสารเติมแต่งลงในหลอดเดิม','ส่งตรวจโดยไม่แจ้งห้องปฏิบัติการ'],1],
+['การรัดสายรัดแขนนานเกินไปอาจส่งผลอย่างไร',['เพิ่มความเสี่ยงต่อการเปลี่ยนแปลงค่าตรวจบางรายการ','ทำให้ทุกค่าตรวจแม่นยำขึ้น','ป้องกัน hemolysis ได้เสมอ','ทำให้ไม่ต้องตรวจสอบตัวผู้ป่วย'],0],
+['จุดประสงค์หลักของ HemoGuide Application คือข้อใด',['ใช้แทนการยืนยันตัวตนผู้ป่วย','ช่วยค้นหาข้อมูลการเลือกหลอดและวิธีเก็บเลือดที่เหมาะสม','ใช้วินิจฉัยโรคจากผลเลือดโดยอัตโนมัติ','ใช้แทนการตรวจวิเคราะห์ในห้องปฏิบัติการ'],1]],
+post:[
+['พยาบาลต้องเก็บเลือดเพื่อตรวจ HbA1c โดยทั่วไปควรเลือกหลอดใด',['หลอดจุกสีม่วง (EDTA)','หลอดจุกสีฟ้า','หลอดจุกสีแดง','ขวดเพาะเชื้อ'],0],
+['การตรวจ aPTT ควรใช้หลอดเก็บเลือดชนิดใด',['หลอดจุกสีเทา','หลอดจุกสีฟ้า (Sodium citrate)','หลอดจุกสีม่วง','หลอดจุกสีเขียว'],1],
+['ก่อนติดฉลากหลอดเลือด ข้อใดเหมาะสมที่สุด',['ใช้หมายเลขเตียงเพียงอย่างเดียว','ยืนยันตัวผู้ป่วยด้วยตัวระบุที่กำหนดและติดฉลากให้ตรงกัน','รอกลับถึงเคาน์เตอร์แล้วจึงจำชื่อผู้ป่วยมาติด','ติดฉลากจากรายชื่อผู้ป่วยรายก่อน'],1],
+['เมื่อต้องเก็บเลือดเพาะเชื้อร่วมกับหลอดตรวจอื่น ควรเก็บสิ่งส่งตรวจใดก่อน',['หลอด EDTA','หลอด Heparin','ขวดเพาะเชื้อในเลือด','หลอด Fluoride'],2],
+['หากหลอด EDTA ไม่ได้รับการผสมอย่างเหมาะสม อาจเกิดปัญหาใด',['เกิดลิ่มเลือดในตัวอย่าง','ทำให้เลือดมีปริมาณมากขึ้น','ทำให้ไม่ต้องตรวจ CBC','ทำให้หลอดเปลี่ยนสี'],0],
+['ข้อใดเป็นวิธีลดความเสี่ยง Hemolysis ระหว่างเก็บตัวอย่าง',['ใช้แรงดูดหรือแรงดันที่รุนแรง','เขย่าหลอดหลังเก็บเลือด','ใช้เทคนิคเก็บและผสมเลือดอย่างนุ่มนวลตามแนวทาง','บีบตำแหน่งเจาะอย่างแรงต่อเนื่อง'],2],
+['เหตุใดหลอด Sodium citrate จึงต้องมีปริมาณเลือดตามขีดกำหนด',['เพื่อรักษาสัดส่วนเลือดต่อสารกันเลือดแข็งที่เหมาะสม','เพื่อให้หลอดหนักขึ้น','เพื่อให้ผล CBC แม่นยำขึ้น','เพื่อให้หลอดเปลี่ยนสี'],0],
+['หากตัวอย่างเลือดสำหรับ CBC มีลิ่มเลือดจนตรวจไม่ได้ ควรทำอย่างไร',['เขย่าแรง ๆ เพื่อสลายลิ่มเลือด','เติม EDTA เพิ่มเอง','ประสานห้องปฏิบัติการและเก็บตัวอย่างใหม่ตามแนวทาง','นำลิ่มเลือดออกแล้วส่งหลอดเดิม'],2],
+['หลังทำความสะอาดผิวหนังก่อนเจาะเลือด ควรปฏิบัติอย่างไร',['เจาะทันทีขณะแอลกอฮอล์ยังเปียก','ปล่อยให้บริเวณที่ทำความสะอาดแห้งตามคำแนะนำ','สัมผัสตำแหน่งเจาะซ้ำโดยไม่รักษาความสะอาด','เป่าลมใส่ผิวหนังเพื่อให้แห้ง'],1],
+['ก่อนใช้ข้อมูลจาก HemoGuide เลือกหลอดเก็บเลือด ควรตรวจสอบสิ่งใดร่วมด้วย',['ชื่อรายการตรวจและข้อกำหนดของห้องปฏิบัติการที่ให้บริการ','เพียงสีหลอดที่มีจำนวนมากที่สุด','เพียงความคุ้นเคยของผู้เก็บเลือด','เพียงเวลาเปิดแอปพลิเคชัน'],0]]};
+var CK=[['ยืนยันตัวตนผู้ป่วย','ตรวจสอบชื่อ-นามสกุล, HN, วันเกิด',1],['เลือกหลอดถูกต้อง','ตรวจสอบสีหลอดและสารเติมแต่ง',1],['ติดฉลากถูกต้อง','ชื่อ, HN, วันเวลา, ชนิดการตรวจ',1],['พลิกหลอดตามจำนวนที่กำหนด','พลิกทันทีหลังเก็บตามชนิดหลอด',1],['ปริมาณเลือดเพียงพอ','เต็มตามที่กำหนด (Citrate ≥ 90%)',1],['ไม่พบลิ่มเลือด','ตรวจสอบว่าไม่มีเลือดแข็งตัว',0],['ไม่พบ Hemolysis','ตัวอย่างไม่มีสีแดงของเม็ดเลือดแดงแตก',0],['ภายนอกหลอดสะอาด','ไม่มีเลือดเปื้อนข้างภาชนะ',0]];
+var SV=['แอปพลิเคชันมีรูปแบบที่สวยงาม อ่านง่าย และเหมาะสมต่อการใช้งาน','การจัดวางเมนูและองค์ประกอบหน้าจอมีความชัดเจนและเหมาะสม','เมนูและขั้นตอนการใช้งานมีความสะดวก ไม่ซับซ้อน','สามารถค้นหาข้อมูลชนิดหลอดเก็บเลือดและรายการตรวจได้อย่างรวดเร็ว','ข้อมูลเกี่ยวกับชนิดหลอด ลำดับการเก็บเลือด และวิธีการผสมเลือดมีความชัดเจน เข้าใจง่าย','แอปพลิเคชันช่วยลดโอกาสเกิดความผิดพลาดในการเก็บตัวอย่างเลือด','แอปพลิเคชันมีประโยชน์ต่อการปฏิบัติงานและช่วยลดโอกาสเกิดความผิดพลาด','โดยภาพรวม ท่านมีความพึงพอใจต่อการใช้นวัตกรรม HemoGuide Application'];
+function $(s){return document.querySelector(s)}
+function go(v){V=v;render();window.scrollTo(0,0)}
+function hdr(t){return '<div class="hd"><button class="bk" onclick="go(\'home\')">‹</button><b>'+t+'</b></div>'}
+function render(){var f={login:login,home:home,quiz:quiz,learn:learn,search:search,check:check,survey:survey,sum:sum}[V];$('#app').innerHTML=f();if(V=='search')upd()}
+function login(){return '<div class="hero"><div class="logo"><svg width="40" height="40" viewBox="0 0 24 24"><path d="M12 2C9 7 6 10 6 14a6 6 0 0012 0c0-4-3-7-6-12z" fill="#1565c0"/><path d="M11 11h2v2h2v2h-2v2h-2v-2H9v-2h2z" fill="#fff"/></svg></div><h1>HemoGuide</h1><p>แม่นยำทุกการเจาะ ลดความคลาดเคลื่อน</p><p>ยกระดับความปลอดภัย</p></div><div class="sheet"><b style="font-size:19px">เข้าสู่ระบบ</b><label>ประเภทผู้ใช้</label><div class="chips">'+['พยาบาล','นักศึกษาพยาบาล','อื่นๆ'].map(function(x){return '<button class="chip'+(S.type==x?' on':'')+'" onclick="S.type=\''+x+'\';render()">'+x+'</button>'}).join('')+'</div><label>คำนำหน้า</label><div class="chips">'+['นาย','นาง','นางสาว'].map(function(x){return '<button class="chip'+(S.pf==x?' on':'')+'" onclick="S.pf=\''+x+'\';render()">'+x+'</button>'}).join('')+'</div><label>ชื่อผู้ใช้</label><input type="text" id="nm" placeholder="กรอกชื่อ-นามสกุล" value="'+S.nm+'"><button class="btn" onclick="S.nm=$(\'#nm\').value.trim();if(!S.nm){$(\'#nm\').focus();return}go(\'home\')">เข้าสู่ระบบ</button></div>'}
+function mi(i,t,s,v){return '<button class="menu" onclick="'+v+'"><div class="ic">'+i+'</div><div><b>'+t+'</b><small>'+s+'</small></div></button>'}
+function home(){return '<div class="hd"><b>HemoGuide</b></div><div class="pad"><div class="card" style="background:var(--soft)">สวัสดี '+S.pf+S.nm+'<br><span class="mu">'+S.type+' · แม่นยำทุกการเจาะ</span></div>'+mi('📝','แบบประเมินก่อนเรียนรู้','Pre-test 10 ข้อ'+(S.pre!=null?' · ได้ '+S.pre+'/10':''),'startQ(\'pre\')')+mi('📚','Learning zone','ชนิดหลอด ลำดับการเก็บ วิธีผสมเลือด',"go('learn')")+mi('🔍','ค้นหาการตรวจ','เลือกรายการตรวจ → ดูหลอดและการพลิกผสม',"go('search')")+mi('✅','Checklist','ก่อนส่งตัวอย่าง',"go('check')")+mi('🎯','แบบทดสอบหลังเรียน','Post-test 10 ข้อ'+(S.post!=null?' · ได้ '+S.post+'/10':''),'startQ(\'post\')')+mi('😊','แบบประเมินความพึงพอใจ','ประเมินการใช้นวัตกรรม',"go('survey')")+mi('📊','สรุปผล','คะแนน และหลอดที่ต้องใช้',"go('sum')")+'</div>'}
+function startQ(k){Q={k:k,i:0,s:0,a:null};go('quiz')}
+function pick(j){if(Q.a!==null)return;Q.a=j;if(j==D[Q.k][Q.i][2])Q.s++;render()}
+function nextQ(){Q.i++;Q.a=null;if(Q.i>=10)S[Q.k]=Q.s;render()}
+function quiz(){var d=D[Q.k],t=Q.k=='pre'?'แบบประเมินก่อนเรียนรู้ (Pre-test)':'แบบทดสอบหลังเรียน (Post-test)';
+if(Q.i>=10){var p=Q.s>=8;return hdr(t)+'<div class="pad" style="text-align:center"><div class="card"><div class="mu">คะแนนที่ได้</div><div class="big">'+Q.s+' / 10</div><b style="color:var(--'+(p?'ok':'no')+')">'+(p?'ผ่านเกณฑ์ (≥ 8 คะแนน)':'ยังไม่ผ่านเกณฑ์ (ต้อง ≥ 8 คะแนน)')+'</b></div><button class="btn" onclick="startQ(\''+Q.k+'\')">ทำใหม่</button><button class="btn alt" onclick="go(\'home\')">กลับเมนู</button></div>'}
+var q=d[Q.i],L='กขคง';return hdr(t)+'<div class="pad"><div class="bar"><i style="width:'+(Q.i*10)+'%"></i></div><p class="mu">ข้อ '+(Q.i+1)+' / 10</p><div class="card"><b>'+q[0]+'</b></div>'+q[1].map(function(o,j){var c=Q.a===null?'':(j==q[2]?' ok':(j==Q.a?' no':''));return '<button class="opt'+c+'" onclick="pick('+j+')"><b>'+L[j]+'.</b> '+o+'</button>'}).join('')+(Q.a!==null?'<div class="card" style="background:var(--soft)"><b>เฉลย: '+L[q[2]]+'.</b> '+q[1][q[2]]+'</div><button class="btn" onclick="nextQ()">'+(Q.i==9?'ดูคะแนน':'ข้อต่อไป')+'</button>':'')+'</div>'}
+function tubeCard(k,ex){var t=T[k];return '<div class="card"><div class="row"><div class="tube" style="--c:'+t.c+';background:'+t.c+'33"></div><div style="flex:1"><b>'+t.n+'</b>'+(ex||'')+'<div class="mu">สารเติมแต่ง: '+t.add+'<br>ปริมาณเลือด: '+t.vol+'<br>พลิกกลับเบา ๆ: '+t.mix+' ครั้ง (หรือตาม IFU/SOP)</div></div></div></div>'}
+function learn(){return hdr('Learning zone')+'<div class="pad"><b>ลำดับการเก็บหลอด (Order of Draw)</b><div class="card">'+ORD.map(function(k,i){return '<span class="tag" style="border-left:10px solid '+T[k].c+'">'+(i+1)+'. '+T[k].n.split(' (')[0]+'</span>'}).join('')+'<p class="mu">ลำดับตามคู่มือห้องปฏิบัติการ: Hemoculture → Clot blood → Sodium citrate → Lithium heparin → EDTA → NaF (ข้ามหลอดที่ไม่มีรายการตรวจ)</p></div><b>ชนิดหลอด</b>'+ORD.map(function(k){var u=TS.filter(function(x){return x[1]==k}).map(function(x){return '<span class="tag">'+x[0]+'</span>'}).join('');return tubeCard(k,'<div>'+u+'</div><div style="font-size:14px;margin-top:6px">⚠ '+T[k].tip+'</div>')}).join('')+'<b>ข้อควรระวังเพื่อลด Hemolysis</b><div class="card" style="font-size:14px">• ใช้เข็มขนาดเหมาะสม ไม่ดึงลูกสูบเร็วหรือฉีดเลือดแรงเกินไป<br>• ผสมเลือดเบา ๆ ไม่เขย่า<br>• รอให้แอลกอฮอล์แห้งก่อนเจาะ<br>• ไม่บีบเค้นตำแหน่งเจาะ<br>• รัดสายรัดแขนไม่นานเกินไป</div></div>'}
+function search(){return hdr('ค้นหาการตรวจ')+'<div class="pad"><b>1 เลือกรายการตรวจ</b> <span class="mu" id="cnt"></span><input type="text" id="q" placeholder="ค้นหา เช่น CBC, FBS, LFT..." oninput="upd()" style="margin:8px 0"><div id="list"></div><div id="res"></div></div>'}
+function upd(){var q=($('#q').value||'').toLowerCase(),n=Object.keys(S.sel).length;$('#cnt').textContent='('+n+' รายการ)';
+$('#list').innerHTML=TS.filter(function(x){return x[0].toLowerCase().indexOf(q)>-1}).map(function(x){var i=TS.indexOf(x);return '<label class="ci" style="margin:0 0 6px"><input type="checkbox" '+(S.sel[i]?'checked':'')+' onchange="tg('+i+')"><span><b>'+x[0]+'</b></span><span class="tag" style="margin-left:auto;border-left:10px solid '+T[x[1]].c+'">'+T[x[1]].n.split(' ')[0].replace('หลอดจุก','')+'</span></label>'}).join('');
+var h='';if(n){h='<b>2 หลอดที่ต้องใช้ (เรียงตามลำดับเก็บ)</b><div style="margin-top:8px"></div>';ORD.forEach(function(k){var u=TS.filter(function(x,i){return S.sel[i]&&x[1]==k}).map(function(x){return '<span class="tag">'+x[0]+'</span>'}).join('');if(u)h+=tubeCard(k,'<div>'+u+'</div><label class="chk"><input type="checkbox" '+(S.ver[k]?'checked':'')+' onchange="S.ver[\''+k+'\']=this.checked">ตรวจสอบและพลิกผสมตาม IFU/SOP แล้ว</label>')});h+='<p class="mu">โปรดตรวจสอบกับข้อกำหนดของห้องปฏิบัติการที่ให้บริการก่อนเก็บเลือดทุกครั้ง</p>'}
+$('#res').innerHTML=h}
+function tg(i){if(S.sel[i])delete S.sel[i];else S.sel[i]=1;upd()}
+function check(){var d=CK.filter(function(_,i){return S.chk[i]}).length,p=Math.round(d*100/CK.length);return hdr('Checklist ก่อนส่งตัวอย่าง')+'<div class="pad"><div class="card"><b>ความคืบหน้า</b> <span style="float:right">'+p+'%</span><div class="bar" style="margin-top:8px"><i style="width:'+p+'%"></i></div></div>'+CK.map(function(c,i){return '<label class="ci"><input type="checkbox" '+(S.chk[i]?'checked':'')+' onchange="S.chk['+i+']=this.checked;render()"><span><b>'+c[0]+'</b>'+(c[2]?'<span class="imp">สำคัญ</span>':'')+'<br><span class="mu">'+c[1]+'</span></span></label>'}).join('')+(p==100?'<div class="card" style="background:rgba(46,158,91,.15);text-align:center"><b>✔ ดำเนินการครบทุกข้อ พร้อมส่งตัวอย่าง</b></div>':'')+'<button class="btn alt" onclick="S.chk={};render()">ล้างรายการ</button></div>'}
+function survey(){return hdr('แบบประเมินความพึงพอใจ')+'<div class="pad"><p class="mu">5 = มากที่สุด · 4 = มาก · 3 = ปานกลาง · 2 = น้อย · 1 = น้อยที่สุด</p>'+SV.map(function(s,i){return '<div class="card"><div>'+(i+1)+'. '+s+'</div><div class="chips" style="margin-top:8px">'+[5,4,3,2,1].map(function(n){return '<button class="chip'+(S.rate[i]==n?' on':'')+'" onclick="S.rate['+i+']='+n+';render()">'+n+'</button>'}).join('')+'</div></div>'}).join('')+'<label>ท่านพบปัญหาหรืออุปสรรคระหว่างการใช้งานแอปพลิเคชัน</label><textarea rows="2" onchange="S.cm[0]=this.value">'+S.cm[0]+'</textarea><label>ข้อเสนอแนะในการปรับปรุงหรือพัฒนาแอปพลิเคชัน</label><textarea rows="2" onchange="S.cm[1]=this.value">'+S.cm[1]+'</textarea><button class="btn" onclick="go(\'sum\')">ส่งแบบประเมิน</button></div>'}
+function sum(){var r=Object.keys(S.rate),av=r.length?(r.reduce(function(a,k){return a+S.rate[k]},0)/r.length).toFixed(2):'-';
+var g=ORD.map(function(k){var u=TS.filter(function(x,i){return S.sel[i]&&x[1]==k}).map(function(x){return x[0]}).join(', ');return u?'<div class="row" style="margin-bottom:8px"><div class="tube" style="--c:'+T[k].c+';background:'+T[k].c+'33"></div><div><b>'+T[k].n+'</b><br><span class="mu">'+u+'</span></div></div>':''}).join('');
+return hdr('สรุปผล')+'<div class="pad"><div class="card" style="display:flex;text-align:center"><div style="flex:1"><div class="mu">Pre-test</div><div class="big">'+(S.pre==null?'-':S.pre)+'</div></div><div style="flex:1"><div class="mu">Post-test</div><div class="big">'+(S.post==null?'-':S.post)+'</div></div></div>'+(S.pre!=null&&S.post!=null?'<div class="card">คะแนนเปลี่ยนแปลง: <b>'+(S.post-S.pre>=0?'+':'')+(S.post-S.pre)+'</b> คะแนน</div>':'')+'<b>ตรวจเลือดอะไรบ้าง ใช้หลอดสีอะไร</b><div class="card" style="margin-top:8px">'+(g||'<span class="mu">ยังไม่ได้เลือกรายการตรวจ — ไปที่เมนู "ค้นหาการตรวจ"</span>')+'</div><div class="card">ความพึงพอใจเฉลี่ย: <b>'+av+' / 5</b></div></div>'}
+render();
+</script></body></html>

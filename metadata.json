@@ -1,0 +1,6 @@
+{
+  "name": "HemoGuide",
+  "description": "คู่มือการเลือกหลอดเก็บเลือด ขั้นตอนการเก็บตัวอย่าง แบบทดสอบความรู้ และบันทึกผลลง Google Sheets เพื่อความปลอดภัยทางการพยาบาล",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
